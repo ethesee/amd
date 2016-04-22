@@ -7,14 +7,14 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link href="http://fonts.googleapis.com/css?family=PT+Sans:400,700" rel='stylesheet' />
-
+    <!--link href="http://fonts.googleapis.com/css?family=PT+Sans:400,700" rel='stylesheet' />
+    <link href="http://fonts.googleapis.com/css?family=Gentium+Book+Basic:400,700|Oswald|Montserrat:400,700" rel="stylesheet" type="text/css" /-->
 
     <title>Static Top Navbar Example for Bootstrap</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap-min.css" rel="stylesheet">
-
+    <!--link href="assets/css/bootstrap-min.css" rel="stylesheet"-->
+     <link href="assets/css/app.css" rel="stylesheet">
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
@@ -73,35 +73,92 @@
     <div class="container">
 
       <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron"> 
-		  <div id="flashdiv">
-		  	
-		  </div>
-		  <!-- Main container -->
-		  <div id="main">
-				<!--form id="main" method="post" action="submit.php"-->
-				<h1>My Study List</h1>
+      <div class="row">
+            <!-- Blog Sidebar Widgets Column -->
+            <div class="col-md-4">
 
-				<ul id="services">
-					<!-- The services will be inserted here -->
-				</ul>
+                <!-- Blog Search Well -->
+                <div class="well">
+                    <h4>Blog Search</h4>
+                    <div class="input-group">
+                        <input type="text" class="form-control">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">
+                                <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                        </span>
+                    </div>
+                    <!-- /.input-group -->
+                </div>
 
-				<p id="total">total: <span>$0</span></p>
+                <!-- Blog Categories Well -->
+                <div class="well">
+                    <h4>Blog Categories</h4>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled">
+                                <li><a href="#">Category Name</a>
+                                </li>
+                                <li><a href="#">Category Name</a>
+                                </li>
+                                <li><a href="#">Category Name</a>
+                                </li>
+                                <li><a href="#">Category Name</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled">
+                                <li><a href="#">Category Name</a>
+                                </li>
+                                <li><a href="#">Category Name</a>
+                                </li>
+                                <li><a href="#">Category Name</a>
+                                </li>
+                                <li><a href="#">Category Name</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                </div>
 
-				<!--input type="submit" id="order" value="Order" /-->
-				<button id="del" value="del">Delete</button><button id="order" value="Order">Order</button>
-					
+                <!-- Side Widget Well -->
+                <div class="well">
+                    <h4>Side Widget Well</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus laudantium odit aliquam repellat tempore quos aspernatur vero.</p>
+                </div>
+            </div>
+            <!-- Blog Post Content Column -->
+            <div class="col-lg-8">
+          		  <div id="flashdiv">
+          		  	
+          		  </div>
+          		  <!-- Main container -->
+          		  <div id="main">
+          				<!--form id="main" method="post" action="submit.php"-->
+          				<h1>My Study List</h1>
 
-				<!--/form-->
-		  </div>
-		  
-		  <div id="addForm">
-		  	
-		  </div>
+          				<ul id="services">
+          					<!-- The services will be inserted here -->
+          				</ul>
 
-		  <!-- Application source -->
-		  <script data-main="app/main" src="assets/js/libs/require/require-min.js"></script>
-	</div>
+          				<p id="total">total: <span>$0</span></p>
+
+          				<!--input type="submit" id="order" value="Order" /-->
+          				<button id="del" value="del">Delete</button><button id="order" value="Order">Order</button>
+          					
+
+          				<!--/form-->
+          		  </div>
+          		  
+          		  <div id="addForm">
+          		  	
+          		  </div>
+            </div>
+      		  <!-- Application source -->
+      		  <script data-main="app/main" src="assets/js/libs/require/require-min.js"></script>
+	    </div>
 </div>
 <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -111,6 +168,14 @@
     <script src="assets/js/libs/bootstrap/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="assets/js/workaround/ie10-viewport-bug-workaround.js"></script>
-
+    <script type="text/javascript">
+       $(function(){
+           $(document).on('click', '.nav.navbar-nav li', function() {
+             $(".nav.navbar-nav li").removeClass("active");
+             $(this).addClass("active");
+    
+           });
+       });
+    </script>
 </body>  
 </html>  
