@@ -3,11 +3,11 @@
 --------------------------*/
 
 
-*{
+/**{
 	margin:0;
 	padding:0;
 }
-
+*/
 
 /*-------------------------
 	General Styles
@@ -47,15 +47,15 @@ section, footer, header, aside{
 	background-color:#fff;
 	box-shadow:0 0 1px #ccc;
 	width:700px;
-	margin:100px auto;
+	/*margin:0px auto;*/
 	border-radius:6px;
-	font:bold 24px/1 'PT Sans', sans-serif;
+	/*font:bold 24px/1 'PT Sans', sans-serif;*/
 	color:#6b6b6b;
 }
 
 
 #main h1{
-	font-size:36px;
+	/*font-size:36px;*/
 	text-align: center;
 	text-transform: uppercase;
 	padding: 0 0 80px;
@@ -139,7 +139,7 @@ section, footer, header, aside{
 	color:#fff;
 	text-transform:uppercase;
 	width:200px;
-	margin:80px auto 0;
+	/*margin:80px auto 0;*/
 	text-align:center;
 	padding:22px 0;
 	border-radius: 3px;
@@ -155,9 +155,9 @@ section, footer, header, aside{
 	background-color:#fff;
 	box-shadow:0 0 1px #ccc;
 	width:700px;
-	margin:100px auto;
+	/*margin:100px auto;*/
 	border-radius:6px;
-	font:bold 24px/1 'PT Sans', sans-serif;
+	/*font:bold 24px/1 'PT Sans', sans-serif;*/
 	color:#6b6b6b;
 
 
@@ -188,12 +188,12 @@ section, footer, header, aside{
 }
 
 #flashbox{
-	padding: 40px;
+	/*padding: 40px;*/
 	background-color:#fff;
 	box-shadow:0 0 1px #ccc;
 	width:700px;
 	
-	margin:20px auto;
+	/*margin:20px auto;*/
 	border-radius:6px;
 	font:bold 14px/1 'PT Sans', sans-serif;
 	color:#6b6b6b;

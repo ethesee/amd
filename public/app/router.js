@@ -35,25 +35,14 @@ define([
     //var libraryView = new LibraryView(false, facebookUser);
     app_router.on('route:showAbout', function(){
       
-      Utils.activeLink('About');
-      // $('.nav.navbar-nav li.active').removeClass('active');
-      // var az = $(".nav.navbar-nav li"); //.find('a');
-      // az.each(function(index){
-       
-      //   var ltext = $("a",az[index]).text();
-        
-      //   if ( ltext === 'About'){
-      //     console.log("found About");
-      //     console.log("az:", az[index]);
-      //     $(this).addClass("active");
-      //   }
-      // });
+      //Utils.activeLink('About');
+     
       
       
     });
 
     app_router.on('route:showContact', function () {
-      Utils.activeLink('Contact');
+      //Utils.activeLink('Contact');
     });
      
     app_router.on('route:defaultAction', function (actions) {
