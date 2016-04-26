@@ -6,14 +6,15 @@ define([
   'servicelist',
   'serviceview',
   'dispatcher',
-  'utils'
-], function($,_, Backbone,Service,ServiceList,ServiceView,dispatcher,Utils) {
+  'utils',
+  'text!templates/chooserTemplate.html',
+], function($,_, Backbone,Service,ServiceList,ServiceView,dispatcher,Utils,chooserTemplate) {
 // The main view of the application
 	var ChooserView = Backbone.View.extend({
 
 		// Base the view on an existing element
-		el: $('#main'),
-		
+		el: $('#Wcontainer'),
+		//template: chooserTemplate,
 
 		initialize: function(options){
 			this.total = $('#total span');
@@ -21,18 +22,18 @@ define([
 			
 			
 			this.services.on("reset", this.render, this);
-	        this.render();
+	        //this.render();
 	 
 	        //this.services.on("add", this.renderBook, this);
 	        /*this.services.on("remove", this.removeBook, this);
 	        */
 			// Cache these selectors
-			this.list = $('#services');
+			
 		
 			this.listenTo(this.services, 'change', this.render);
 			dispatcher.on('add', this.addService, this);
 
-			this.createServiceViews();
+			
 			
 		},
 
@@ -51,7 +52,10 @@ define([
 		},
 
 		render: function(){
-
+			this.template = _.template(chooserTemplate);
+			this.$el.html(this.template());
+			this.list = $('#services');
+			this.createServiceViews();
 			// Calculate the total order amount by agregating
 			// the prices of only the checked elements
 			
@@ -64,7 +68,6 @@ define([
 			//total = total.toFixed(2);
 			total = Utils.roundToTwo(total);
 			// Update the total price
-			//$("#total span").text('$'+total);
 			this.total.text('$'+total);
 
 			return this;
@@ -77,17 +80,12 @@ define([
 			'click #showAdd': "toggleAddForm",
 			'click #addService': "addService"
 		},
-		addService: function(s){
-			 
+		addService: function(s){		
 			var stitle = s.get('title'), sprice = Utils.roundToTwo(parseFloat(s.get('price')));
 			console.log("sprice:" + sprice);
 			this.services.create({ title: stitle, price: sprice, checked: false});
-			
-			// this.services.fetch();
 			this.createServiceViews();
 			this.services.trigger('change',{});
-
-			
 		},
 
 		orderMessage: function(event){
@@ -97,27 +95,21 @@ define([
 			var total = 0;
 
 			_.each(this.services.getChecked(), function(elem){
-				//console.log("elem",elem);
 				elem.toggle();
 			});
 		},
 		delProducts: function(event){
-			//console.log("services:",this.services);
+			
 			var self = this;
 			_.each(this.services.getChecked(), function(elem){
-				console.log("elem",elem);
-				//elem.toggle();
-				var elemid = elem.get("_id");
-				//self.services.remove(self.services.findWhere({_id: elemid}));
-				//self.services.remove(self.services.where({ "_id": elemid}));
-				self.services.where({_id: elemid})[0].destroy();
 				
-				console.log("removed model id:" + elemid);
+				var elemid = elem.get("_id");
+				self.services.where({_id: elemid})[0].destroy();
 				
 			});
 			this.createServiceViews();
 			this.services.trigger('change',{});
-			//this.serices.trigger('reset',{});
+			
 		}
 
 	});

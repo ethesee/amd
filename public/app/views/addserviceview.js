@@ -12,11 +12,12 @@ define([
 	var AddServiceView = Backbone.View.extend({
 
 		// Base the view on an existing element
-		el: $('#addForm'),
+		//el: $('#addForm'),
+		el: $('#Wcontainer'),
 		template: addserviceTemplate,
 
 		initialize: function(){
-			this.render();
+			//this.render();
 		},
 
 		render: function(){

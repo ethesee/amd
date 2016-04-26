@@ -29,16 +29,17 @@ define([
   
   
   var initialize = function(){
+    var flashView = new FlashMessageView();
+    var addformView = new AddServiceView();
+    var services = new ServiceList();
     
     var app_router = new AppRouter;
-    
+    var mainView = new ChooserView({collection: services});
     //var libraryView = new LibraryView(false, facebookUser);
     app_router.on('route:showAbout', function(){
-      
       //Utils.activeLink('About');
-     
-      
-      
+      $("#Wcontainer").empty();
+      addformView.render();
     });
 
     app_router.on('route:showContact', function () {
@@ -46,31 +47,20 @@ define([
     });
      
     app_router.on('route:defaultAction', function (actions) {
-    	var services = new ServiceList();
+
+    	
     	services.fetch({
     		success: function(c,p,t){
-    			var mainView = new ChooserView({collection: services});
+    			mainView.render();
     		}
     	});     
 	    
-	    
-        var addformView = new AddServiceView();
-        var flashView = new FlashMessageView();
-	});
-	   
-        
-    
-
-    // Unlike the above, we don't call render on this view as it will handle
-    // the render call internally after it loads data. Further more we load it
-    // outside of an on-route function to have it loaded no matter which page is
-    // loaded initially.
-    /*var footerView = new FooterView();*/
- 
-    //libraryView.selectMenuItem('home-menu');
+	  });
     Backbone.history.start();
+
   };
   return { 
     initialize: initialize
   };
+
 });

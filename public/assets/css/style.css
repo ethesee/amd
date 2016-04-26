@@ -71,7 +71,7 @@ section, footer, header, aside{
 #services li{
 	background-color: #fbfbfc;
 	box-shadow:0 1px 1px #eee;
-	font-size:22px;
+	font-size:14px;
 	color: #85898b;
 	padding:22px 30px;
 	margin-bottom:15px;
@@ -110,7 +110,7 @@ section, footer, header, aside{
 
 #order{
 	font:inherit;
-	font-size:24px;
+	font-size:18px;
 	cursor:pointer;
 	border:none;
 	display:block;
@@ -131,7 +131,7 @@ section, footer, header, aside{
 
 #del{
 	font:inherit;
-	font-size:24px;
+	font-size:18px;
 	cursor:pointer;
 	border:none;
 	display:block;
