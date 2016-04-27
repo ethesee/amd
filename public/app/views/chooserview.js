@@ -17,12 +17,12 @@ define([
 		//template: chooserTemplate,
 
 		initialize: function(options){
-			this.total = $('#total span');
+			
 			this.services = options.collection;
 			
 			
 			this.services.on("reset", this.render, this);
-	        //this.render();
+	        this.render();
 	 
 	        //this.services.on("add", this.renderBook, this);
 	        /*this.services.on("remove", this.removeBook, this);
@@ -39,6 +39,7 @@ define([
 
 		createServiceViews: function(){
 			this.list.empty();
+			this.total = $('#total span');
 			
 			// Create views for every one of the services in the
 			// collection and add them to the page
@@ -69,7 +70,7 @@ define([
 			total = Utils.roundToTwo(total);
 			// Update the total price
 			this.total.text('$'+total);
-
+            console.log("total:" + total);
 			return this;
 
 		},
@@ -82,6 +83,8 @@ define([
 		},
 		addService: function(s){		
 			var stitle = s.get('title'), sprice = Utils.roundToTwo(parseFloat(s.get('price')));
+			
+			
 			console.log("sprice:" + sprice);
 			this.services.create({ title: stitle, price: sprice, checked: false});
 			this.createServiceViews();
