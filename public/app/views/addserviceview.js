@@ -23,17 +23,37 @@ define([
 		render: function(){
 
 			var tmpl = _.template(this.template); //tmpl is a function that takes a JSON object and returns html
-        	this.$el.html(tmpl(/*this.model.toJSON()*/)); //this.el is what we defined in tagName. use $el to get access to jQuery html() function
+        	this.$el.html(tmpl(/*this.model.toJSON()*/));
+        	
             return this;
 
 		},
 
 		events: { 
-			'click #addService': "addService"
+			'click #addService': "addService",
+			'change #coverImage': "processUpload"
 		},
-
+		
+        processUpload: function(e){
+            
+            var fileInput = $("#coverImage");
+            
+            console.log("fileinput:",fileInput[0]);
+                
+            var file = fileInput[0].files[0];
+            console.log("file:",file);
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#fileData').val(reader.result);
+                $('#fileName').val(file.name);
+            };
+            reader.readAsDataURL(file);
+            
+        },
+        
 		addService: function(event){
 			var s = new Service({ title: $("#sname").val(), price: $("#sprice").val()});
+			//var s = { title: $("#sname").val(), price: $("#sprice").val()};
 			dispatcher.trigger("add",s);
 			$("#sname").val("");
 			$("#sprice").val("");
