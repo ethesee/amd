@@ -84,9 +84,11 @@ define([
 		addService: function(s){		
 			var stitle = s.get('title'), sprice = Utils.roundToTwo(parseFloat(s.get('price')));
 			
-			
+			// var newFile = this.$('#fileData').val();
+            // var newFilename = this.$('#fileName').val();
+            
 			console.log("sprice:" + sprice);
-			this.services.create({ title: stitle, price: sprice, checked: false});
+			this.services.create({ title: stitle, price: sprice, checked: false, file: s.get('newFile'), filename: s.get('newFilename')});
 			this.createServiceViews();
 			this.services.trigger('change',{});
 		},

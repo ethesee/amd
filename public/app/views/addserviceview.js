@@ -52,7 +52,7 @@ define([
         },
         
 		addService: function(event){
-			var s = new Service({ title: $("#sname").val(), price: $("#sprice").val()});
+			var s = new Service({ title: $("#sname").val(), price: $("#sprice").val(), newFilename: $("#fileName").val(), newFile: $("#fileData").val()});
 			//var s = { title: $("#sname").val(), price: $("#sprice").val()};
 			dispatcher.trigger("add",s);
 			$("#sname").val("");

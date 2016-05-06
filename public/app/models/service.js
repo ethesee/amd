@@ -10,7 +10,11 @@ define([
 			defaults:{
 				title: 'My service',
 				price: 100,
-				checked: false
+				checked: false,
+				filename: '',
+				file: null,
+				fileurl: ''
+				
 			},
 			idAttribute: "_id",
 			parse:function (response) {
