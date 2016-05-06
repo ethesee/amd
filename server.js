@@ -2,6 +2,7 @@
 var application_root = '.',
     express = require("express"), //Web framework
     path = require("path"), //Utilities for dealing with file paths
+    fs = require('fs'),
     mongoose = require('mongoose'); //MongoDB integration
 
     
@@ -40,7 +41,9 @@ mongoose.connect('mongodb://localhost/amd_database');
 var Service = new  mongoose.Schema({
     title:String,
     price:String,
-    checked: Boolean
+    checked: Boolean,
+    filename:String,
+    fileurl:String
 });
  
 //Models
@@ -68,18 +71,54 @@ app.get('/api/services/:id', function(req, res){
 });
 
 app.post('/api/services', function (req, res) {
+    
     var service = new ServiceModel({
         title:req.body.title,
         price:req.body.price,
-        checked: req.body.checked
+        checked: req.body.checked,
+        filename: req.body.filename,
+        fileurl: req.body.fileurl
     });
-    service.save(function (err) {
-        if (!err) {
-            return console.log('created');
-        } else {
-            return console.log(err);
-        }
-    });
+    //process the file attachment if exists
+    if ( req.body.filename !== ""){
+        console.log("got file attachment");
+        //get the file extension
+        var re = /(?:\.([^.]+))?$/;
+        var ext = re.exec(req.body.filename)[1]; 
+        //build our filename
+        var filename = req.body.filename + "." + ext;  
+        
+        var data_url = req.body.file;
+        //strip out all of the meta data
+        var matches = data_url.match(/^data:.+\/(.+);base64,(.*)$/);
+        var base64_data = matches[2];
+        //decode the base64 data
+        var buffer = new Buffer(base64_data, 'base64');  
+        
+        //where to save the file
+        var folder = "downloads/";
+        fs.writeFile(folder + filename, buffer, function(err, stat) {
+            if(err) {
+                res.json({status: 'failed', message: 'Failed to upload file. Please try again.'});
+            } else {
+                data.fileurl = folder + filename;
+                //var model = new Model(data);
+                service.save(function(err, saved) {
+                    res.json( (err) ? {status: 'failed', message: 'Failed to save new item'} : {status: 'added', _id: saved._id, created_at: saved.created_at} );
+                });
+            }
+        });  
+    }else{
+        service.save(function (err) {
+            if (!err) {
+                return console.log('created');
+            } else {
+                return console.log(err);
+            }
+        });
+    }
+    
+    
     return res.send(service);
 });
 
@@ -89,6 +128,8 @@ app.put('/api/services/:id', function(req, res){
         service.title = req.body.title;
         service.price = req.body.price;
         service.checked = req.body.checked;
+        service.filename = req.body.filename;
+        service.fileurl = req.body.fileurl;
         return service.save(function(err){
             if(!err){
                 console.log('service updated');
