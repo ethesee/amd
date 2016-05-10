@@ -200,6 +200,27 @@ section, footer, header, aside{
 
 
 }
+#gallery {
+	width: 100%;
+}
+#gallery .thumbnail{
+
+            width:150px;
+
+            height: 150px;
+
+            float:left;
+
+            margin:2px;
+
+}
+
+#gallery .thumbnail img{
+    width:150px;
+
+    height: 150px;
+}
+
 
 /*----------------------------
 	The Demo Footer

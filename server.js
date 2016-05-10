@@ -12,7 +12,8 @@ var app = express.createServer();
  
 // Configure server
 app.configure(function () {
-    app.use(express.bodyParser()); //parses request body and populates req.body
+    //app.use(express.bodyParser()); //parses request body and populates req.body
+    app.use(express.bodyParser({uploadDir:'./uploads'}));
     app.use(express.methodOverride()); //checks req.body for HTTP method overrides
     app.use(app.router); //perform route lookup based on url and HTTP method
     app.use(express.static(path.join(application_root, "public"))); //Where to serve static content
