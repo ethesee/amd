@@ -18,18 +18,6 @@ define([
 
 		initialize: function(){
 			//this.render();
-			//var uploadfiles = document.querySelector('#fileinput');
-			// uploadfiles.addEventListener('change', function () {
-
-   //  			var files = this.files;
-
-			//     for(var i=0; i<files.length; i++){
-
-			//         previewImage(this.files[i]);
-			//     }
-
-			// }, false);
-
 		},
 
 		render: function(){
@@ -50,10 +38,12 @@ define([
             
             var fileInput = $("#coverImage");
             
-            console.log("fileinput:",fileInput[0]);
-            this.showPreview(fileInput[0].files);  
+            this.files = fileInput[0].files;
+            
+            //console.log("fileinput:",fileInput[0]);
+            //this.showPreview(fileInput[0].files); 
+            this.showPreview(); 
             var file = fileInput[0].files[0];
-            console.log("file:",file);
             var reader = new FileReader();
             reader.onload = function(e) {
                 $('#fileData').val(reader.result);
@@ -63,12 +53,12 @@ define([
             
         },
 
-        showPreview: function(files){
+        showPreview: function(){
+        	var files = this.files;
         	console.log("showPreview for:" + files.length);
 
 
 		    for(var i=0; i<files.length; i++){
-		    	console.log("calling previewImage")
 		        this.previewImage(files[i]);
 		    }
         },
@@ -103,7 +93,8 @@ define([
         },
 		addService: function(event){
 			var s = new Service({ title: $("#sname").val(), price: $("#sprice").val(), newFilename: $("#fileName").val(), newFile: $("#fileData").val()});
-			//var s = { title: $("#sname").val(), price: $("#sprice").val()};
+			//upload files and only after files are uploaded that we continue with names, etc...
+			//var promise = this.uploadFiles();
 			dispatcher.trigger("add",s);
 			$("#sname").val("");
 			$("#sprice").val("");
