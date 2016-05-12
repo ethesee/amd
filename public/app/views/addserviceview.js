@@ -152,7 +152,7 @@ define([
         },
 		addService: function(event){
 			var s = new Service({ title: $("#sname").val(), price: $("#sprice").val()});
-			if ( this.files[0].name ){
+			if ( this.files && this.files[0].name ){
 				s = new Service({ title: $("#sname").val(), price: $("#sprice").val(), image: this.files[0].name});
 			}
 			//var s = new Service({ title: $("#sname").val(), price: $("#sprice").val(), image: this.files[0].name});

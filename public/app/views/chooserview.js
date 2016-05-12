@@ -70,7 +70,7 @@ define([
 			total = Utils.roundToTwo(total);
 			// Update the total price
 			this.total.text('$'+total);
-            console.log("total:" + total);
+            //console.log("total:" + total);
 			return this;
 
 		},

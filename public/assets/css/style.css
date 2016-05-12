@@ -46,7 +46,8 @@ section, footer, header, aside{
 	padding:100px;
 	background-color:#fff;
 	box-shadow:0 0 1px #ccc;
-	width:700px;
+	/*width:700px;*/
+	width: 98%;
 	/*margin:0px auto;*/
 	border-radius:6px;
 	/*font:bold 24px/1 'PT Sans', sans-serif;*/
@@ -139,6 +140,7 @@ section, footer, header, aside{
 	color:#fff;
 	text-transform:uppercase;
 	width:200px;
+	float:left;
 	/*margin:80px auto 0;*/
 	text-align:center;
 	padding:22px 0;

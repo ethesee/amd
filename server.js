@@ -193,6 +193,20 @@ app.put('/api/services/:id', function(req, res){
 app.delete('/api/services/:id', function(req, res){
     console.log('Deleting service with id: ' + req.params.id);
     return ServiceModel.findById(req.params.id, function(err, service){
+            var imageFile = service.get('image');
+            if(imageFile){
+                console.log("image file to be deleted:" + imageFile);
+                var target_path = path.join(__dirname,'\\public\\uploads\\') + imageFile;
+                fs.unlink(target_path, function() {
+                    if (err) {
+                        throw err;
+                    }else{
+                            var profile_pic = req.files.photos[0].name;
+                            //use profile_pic to do other stuffs like update DB or write rendering logic here.
+                    };
+                });
+
+            }
         	return service.remove(function(err){
 	            if(!err){
 	                console.log('Service removed');
