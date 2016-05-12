@@ -21,21 +21,22 @@ app.configure(function () {
     app.use(app.router); //perform route lookup based on url and HTTP method
     app.use(express.static(path.join(application_root, "public"))); //Where to serve static content
     app.use(express.errorHandler({ dumpExceptions:true, showStack:true })); //Show all errors in development
-    app.use(multer({ 
-        dest: '.\\public\\uploads\\',
-        rename: function (fieldname, filename) {
-            return filename.replace(/\W+/g, '-').toLowerCase() + Date.now()
-        },
-        onFileUploadStart: function (file) {
-            console.log(file.fieldname + ' is starting ...')
-        },
-        onFileUploadData: function (file, data) {
-            console.log(data.length + ' of ' + file.fieldname + ' arrived')
-        },
-        onFileUploadComplete: function (file) {
-            console.log(file.fieldname + ' uploaded to  ' + file.path)
-        }
-    }));
+    // app.use(multer({ 
+    //     dest: '.\\public\\uploads\\',
+    //     rename: function (fieldname, filename) {
+    //         console.log('rename called')
+    //         return filename.replace(/\W+/g, '-').toLowerCase() + Date.now()
+    //     },
+    //     onFileUploadStart: function (file) {
+    //         console.log(file.fieldname + ' is starting ...')
+    //     },
+    //     onFileUploadData: function (file, data) {
+    //         console.log(data.length + ' of ' + file.fieldname + ' arrived')
+    //     },
+    //     onFileUploadComplete: function (file) {
+    //         console.log(file.fieldname + ' uploaded to  ' + file.path)
+    //     }
+    // }));
 });
  
 //Start server
@@ -62,8 +63,7 @@ var Service = new  mongoose.Schema({
     title:String,
     price:String,
     checked: Boolean,
-    filename:String,
-    fileurl:String
+    image:String
 });
  
 //Models
@@ -94,7 +94,7 @@ app.get('/api/services/:id', function(req, res){
 
 
 app.post('/upload', function(req,res){
-    console.log("upload called.", req.files)
+    
     var tmp_path = req.files.photos[0].path;
     console.log('tmp path:' + tmp_path);
     var target_path = path.join(__dirname,'\\public\\uploads\\') + req.files.photos[0].name;
@@ -102,14 +102,14 @@ app.post('/upload', function(req,res){
     fs.rename(tmp_path, target_path, function(err) {
         if (err) throw err;
         // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
-        // fs.unlink(tmp_path, function() {
-        //     if (err) {
-        //         throw err;
-        //     }else{
-        //             var profile_pic = req.files.userPhoto.name;
-        //             //use profile_pic to do other stuffs like update DB or write rendering logic here.
-        //     };
-        // });
+        fs.unlink(tmp_path, function() {
+            if (err) {
+                throw err;
+            }else{
+                    var profile_pic = req.files.photos[0].name;
+                    //use profile_pic to do other stuffs like update DB or write rendering logic here.
+            };
+        });
     });
 });
 app.post('/api/services', function (req, res) {
@@ -118,8 +118,7 @@ app.post('/api/services', function (req, res) {
         title:req.body.title,
         price:req.body.price,
         checked: req.body.checked,
-        filename: req.body.filename,
-        fileurl: req.body.fileurl
+        image: req.body.image
     });
     service.save(function (err) {
             if (!err) {
@@ -178,8 +177,8 @@ app.put('/api/services/:id', function(req, res){
         service.title = req.body.title;
         service.price = req.body.price;
         service.checked = req.body.checked;
-        service.filename = req.body.filename;
-        service.fileurl = req.body.fileurl;
+        service.image = req.body.image;
+
         return service.save(function(err){
             if(!err){
                 console.log('service updated');
