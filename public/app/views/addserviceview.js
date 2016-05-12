@@ -37,31 +37,89 @@ define([
         processUpload: function(e){
             
             var fileInput = $("#coverImage");
+            var files = fileInput[0].files;
             
-            this.files = fileInput[0].files;
+            this.formData = new FormData();
+            this.files = [];
+            for (var i = 0; i < files.length; i++) {
+			  var file = files[i];
+
+			  // Check the file type.
+			  if (!file.type.match('image.*')) {
+			    continue;
+			  }
+              
+			  // Add the file to the request.
+			  this.files.push(file);
+			  //this.formData.append('file',file);
+			  this.formData.append('photos[]', file, file.name);
+			}
             
-            //console.log("fileinput:",fileInput[0]);
-            //this.showPreview(fileInput[0].files); 
             this.showPreview(); 
-            var file = fileInput[0].files[0];
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                $('#fileData').val(reader.result);
-                $('#fileName').val(file.name);
-            };
-            reader.readAsDataURL(file);
+            
+            // var file = fileInput[0].files[0];
+            // var reader = new FileReader();
+            // reader.onload = function(e) {
+            //     $('#fileData').val(reader.result);
+            //     $('#fileName').val(file.name);
+            // };
+            // reader.readAsDataURL(file);
             
         },
 
         showPreview: function(){
+        	//console.log("photos:", this.formData.get("photos[]"));
+        	//var photos = this.formData.get('photos[]');//this.files;
         	var files = this.files;
-        	console.log("showPreview for:" + files.length);
+        	//console.log("files:" + files.length);
 
 
 		    for(var i=0; i<files.length; i++){
 		        this.previewImage(files[i]);
 		    }
         },
+        sendAjax: function(){
+        	var _this = this;
+        	$('.progress-bar').text('0%');
+    		$('.progress-bar').width('0%');
+        	$.ajax({
+			  url: '/upload',
+			  type: 'POST',
+			  data: _this.formData,
+			  processData: false,
+			  contentType: false,
+			  success: function(data){
+			      console.log('upload successful!');
+			  },
+		      xhr: function() {
+				  // create an XMLHttpRequest
+				  var xhr = new XMLHttpRequest();
+
+				  // listen to the 'progress' event
+				  xhr.upload.addEventListener('progress', function(evt) {
+
+				    if (evt.lengthComputable) {
+				      // calculate the percentage of upload completed
+				      var percentComplete = evt.loaded / evt.total;
+				      percentComplete = parseInt(percentComplete * 100);
+
+				      // update the Bootstrap progress bar with the new percentage
+				      $('.progress-bar').text(percentComplete + '%');
+				      $('.progress-bar').width(percentComplete + '%');
+
+				      // once the upload reaches 100%, set the progress bar text to done
+				      if (percentComplete === 100) {
+				        $('.progress-bar').html('Done');
+				      }
+
+				    }
+
+				  }, false);
+
+				  return xhr;
+				}
+			});
+		},
         previewImage: function(file){
         	 
 		    var galleryId = "gallery";
@@ -95,11 +153,16 @@ define([
 			var s = new Service({ title: $("#sname").val(), price: $("#sprice").val(), newFilename: $("#fileName").val(), newFile: $("#fileData").val()});
 			//upload files and only after files are uploaded that we continue with names, etc...
 			//var promise = this.uploadFiles();
-			dispatcher.trigger("add",s);
-			$("#sname").val("");
-			$("#sprice").val("");
+			console.log("addService called")
+			var _this = this;
+			var formdata = _this.formData;
+			//console.log("uploading:",formdata);
+			if (formdata) {
+				this.sendAjax();
+			}
+			
+			
 		}
-
 	});
 	return AddServiceView;
 
