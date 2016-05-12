@@ -75,6 +75,7 @@ define([
 
 
 		    for(var i=0; i<files.length; i++){
+		    	console.log("file:", files[i]);
 		        this.previewImage(files[i]);
 		    }
         },
@@ -150,19 +151,24 @@ define([
 
         },
 		addService: function(event){
-			var s = new Service({ title: $("#sname").val(), price: $("#sprice").val(), newFilename: $("#fileName").val(), newFile: $("#fileData").val()});
+			var s = new Service({ title: $("#sname").val(), price: $("#sprice").val()});
+			if ( this.files[0].name ){
+				s = new Service({ title: $("#sname").val(), price: $("#sprice").val(), image: this.files[0].name});
+			}
+			//var s = new Service({ title: $("#sname").val(), price: $("#sprice").val(), image: this.files[0].name});
 			//upload files and only after files are uploaded that we continue with names, etc...
-			//var promise = this.uploadFiles();
-			console.log("addService called")
 			var _this = this;
 			var formdata = _this.formData;
 			//console.log("uploading:",formdata);
 			if (formdata) {
 				this.sendAjax();
 			}
-			
+			dispatcher.trigger("add",s);
+			$("#sname").val("");
+			$("#sprice").val("");
 			
 		}
+
 	});
 	return AddServiceView;
 

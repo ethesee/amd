@@ -11,15 +11,17 @@ define([
 				title: 'My service',
 				price: 100,
 				checked: false,
-				filename: '',
-				file: null,
-				fileurl: ''
-				
+				image: ''	
 			},
 			idAttribute: "_id",
 			parse:function (response) {
 		        //console.log(response);
 		        response.id = response._id;
+		        if ( response.image !== 'undefined'){
+		        	console.log("image:" + response.image);
+		        }else{
+		        	console.log("no image");
+		        }
 		        return response;
 		    },
 			// Helper function for checking/unchecking a service

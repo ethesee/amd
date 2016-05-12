@@ -88,7 +88,13 @@ define([
             // var newFilename = this.$('#fileName').val();
             
 			console.log("sprice:" + sprice);
-			this.services.create({ title: stitle, price: sprice, checked: false, file: s.get('newFile'), filename: s.get('newFilename')});
+
+			//this.services.create({ title: stitle, price: sprice, checked: false, image: s.get('image')});
+			if ( s.get('image') ){
+				this.services.create({ title: stitle, price: sprice, checked: false, image: s.get('image')});
+			}else{
+				this.services.create({ title: stitle, price: sprice, checked: false});
+			}
 			this.createServiceViews();
 			this.services.trigger('change',{});
 		},
