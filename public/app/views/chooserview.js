@@ -7,7 +7,7 @@ define([
   'serviceview',
   'dispatcher',
   'utils',
-  'text!templates/chooserTemplate.html',
+  'text!templates/chooserTemplate.html'
 ], function($,_, Backbone,Service,ServiceList,ServiceView,dispatcher,Utils,chooserTemplate) {
 // The main view of the application
 	var ChooserView = Backbone.View.extend({
@@ -79,24 +79,23 @@ define([
 			'click #order': "orderMessage",
 			'click #del': "delProducts",
 			'click #showAdd': "toggleAddForm",
-			'click #addService': "addService"
+			//'click #addService': "addService"
 		},
-		addService: function(s){		
+		addService: function(s){
+		    console.log("add Service in ChooserView called");		
 			var stitle = s.get('title'), sprice = Utils.roundToTwo(parseFloat(s.get('price')));
-			
-			// var newFile = this.$('#fileData').val();
-            // var newFilename = this.$('#fileName').val();
-            
-			console.log("sprice:" + sprice);
 
-			//this.services.create({ title: stitle, price: sprice, checked: false, image: s.get('image')});
 			if ( s.get('image') ){
+				//with image
 				this.services.create({ title: stitle, price: sprice, checked: false, image: s.get('image')});
 			}else{
 				this.services.create({ title: stitle, price: sprice, checked: false});
 			}
 			this.createServiceViews();
 			this.services.trigger('change',{});
+			Utils.activeLink('Home');
+			window.history.replaceState(null, null, '/');
+			//Backbone.history.navigate('#', true);
 		},
 
 		orderMessage: function(event){

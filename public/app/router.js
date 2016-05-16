@@ -18,6 +18,7 @@ define([
   var AppRouter = Backbone.Router.extend({
     routes: {
       // Define some URL routes
+      'home' : 'defaultAction',
       'about': 'showAbout',
       'contact': 'showContact',
       
@@ -48,7 +49,6 @@ define([
      
     app_router.on('route:defaultAction', function (actions) {
 
-    	
     	services.fetch({
     		success: function(c,p,t){
     			mainView.render();

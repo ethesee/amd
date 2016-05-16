@@ -56,39 +56,29 @@ define([
 			}
             
             this.showPreview(); 
-            
-            // var file = fileInput[0].files[0];
-            // var reader = new FileReader();
-            // reader.onload = function(e) {
-            //     $('#fileData').val(reader.result);
-            //     $('#fileName').val(file.name);
-            // };
-            // reader.readAsDataURL(file);
-            
         },
 
         showPreview: function(){
-        	//console.log("photos:", this.formData.get("photos[]"));
-        	//var photos = this.formData.get('photos[]');//this.files;
         	var files = this.files;
-        	//console.log("files:" + files.length);
-
-
 		    for(var i=0; i<files.length; i++){
-		    	console.log("file:", files[i]);
 		        this.previewImage(files[i]);
 		    }
         },
-        sendAjax: function(){
+        sendAjax: function(s){
         	var _this = this;
+        	var theService = s;
         	$('.progress-bar').text('0%');
     		$('.progress-bar').width('0%');
-        	$.ajax({
+    		console.log("sendAjax called.")
+			return $.ajax({
 			  url: '/upload',
 			  type: 'POST',
 			  data: _this.formData,
 			  processData: false,
 			  contentType: false,
+			  beforeSend: function(data){
+			  	console.log("before send in ajax");
+			  },
 			  success: function(data){
 			      console.log('upload successful!');
 			  },
@@ -111,15 +101,24 @@ define([
 				      // once the upload reaches 100%, set the progress bar text to done
 				      if (percentComplete === 100) {
 				        $('.progress-bar').html('Done');
+				   
+				        setTimeout(function(){
+				        	dispatcher.trigger("add",theService);
+							$("#sname").val("");
+							$("#sprice").val("");
+							$("#coverImage").replaceWith($("#coverImage").clone());
+						},1000);
 				      }
 
 				    }
 
 				  }, false);
-
+				  
 				  return xhr;
 				}
+
 			});
+        	
 		},
         previewImage: function(file){
         	 
@@ -151,21 +150,23 @@ define([
 
         },
 		addService: function(event){
-			var s = new Service({ title: $("#sname").val(), price: $("#sprice").val()});
-			if ( this.files && this.files[0].name ){
-				s = new Service({ title: $("#sname").val(), price: $("#sprice").val(), image: this.files[0].name});
-			}
-			//var s = new Service({ title: $("#sname").val(), price: $("#sprice").val(), image: this.files[0].name});
-			//upload files and only after files are uploaded that we continue with names, etc...
 			var _this = this;
+			console.log("add Service in addserviceView called");
+			var s = new Service({ title: $("#sname").val(), price: $("#sprice").val()});
+			if ( _this.files && _this.files[0].name ){
+				s = new Service({ title: $("#sname").val(), price: $("#sprice").val(), image: _this.files[0].name});
+			}
+			
 			var formdata = _this.formData;
 			//console.log("uploading:",formdata);
-			if (formdata) {
-				this.sendAjax();
+			if (formdata && _this.files.length) {	
+				this.sendAjax(s);					
+			}else{
+				dispatcher.trigger("add",s);
+				$("#sname").val("");
+				$("#sprice").val("");
 			}
-			dispatcher.trigger("add",s);
-			$("#sname").val("");
-			$("#sprice").val("");
+			
 			
 		}
 
