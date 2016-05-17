@@ -1,0 +1,26 @@
+<div class="leftpart">
+    <input type="checkbox" value="1" name="<%=title%>" />
+</div>
+<% if (image === ''){ %>
+    <div class="rightpart">
+        <summary>
+            <%=title%><span>$<%=price%></span>
+        </summary>
+    </div>
+<%}else{%>
+
+    <div class="rightpart">
+        <summary>
+            <%=title%><span>$<%=price%></span>
+        </summary>
+        <details>
+            <summary>
+                Click here for more info ... 
+            </summary>
+            	<p>
+                    <img class="screenshot" src="uploads\\<%=image%>" width="150" height="150"><%=title%> ":" <%=price%>
+                <p>
+        </details>
+    </div>
+<%}%>
+<div style="clear:both; font-size:1px;"></div>

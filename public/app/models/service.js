@@ -17,16 +17,14 @@ define([
 			parse:function (response) {
 		        //console.log(response);
 		        response.id = response._id;
-		        if ( response.image !== 'undefined'){
-		        	console.log("image:" + response.image);
-		        }else{
-		        	console.log("no image");
-		        }
+		        
 		        return response;
 		    },
 			// Helper function for checking/unchecking a service
 			toggle: function(){
+				
 				this.set('checked', !this.get('checked'));
+
 			}
 	});
 	return Service;

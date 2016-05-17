@@ -66,10 +66,30 @@ section, footer, header, aside{
 #services{
 	list-style:none;
 	margin:0 auto;
-	width:600px;
+	width: 350px;
 }
 
-#services li{
+#services .leftpart{
+	background-color: #ffffff;
+	box-shadow:0 1px 1px #eee;
+	font-size:14px;
+	color: #85898b;
+	padding:22px 30px;
+	margin-bottom:15px;
+	border-radius:4px;
+	cursor:pointer;
+	float:left;
+}
+
+#services .leftpart input[type=checkbox]{
+	width:16px;
+	height:16px;
+	display:inline-block;
+	vertical-align: middle;
+	
+}
+
+/*#services li{
 	background-color: #fbfbfc;
 	box-shadow:0 1px 1px #eee;
 	font-size:14px;
@@ -93,6 +113,24 @@ section, footer, header, aside{
 	height:16px;
 	display:inline-block;
 	vertical-align: middle;
+}
+*/
+#services .rightpart {
+	background-color: #fbfbfc;
+	box-shadow:0 1px 1px #eee;
+	font-size:14px;
+	color: #85898b;
+	padding:22px 30px;
+	margin-bottom:15px;
+	border-radius:4px;
+	cursor:pointer;
+	float:right;
+	width:260px;
+}
+
+#services .rightpart span{
+	float:right;
+	opacity:0.6;
 }
 
 #total{
@@ -150,6 +188,36 @@ section, footer, header, aside{
 
 #del:hover{
 	opacity: 0.9;
+}
+
+
+summary::-webkit-details-marker {
+ color: #00ACF3;
+ font-size: 125%;
+ margin-right: 2px;
+}
+
+summary:focus {
+	outline-style: none;
+}
+
+article > details > summary {
+	/*font-size: 28px;*/
+	margin-top: 16px;
+}
+details > p {
+	/*margin-left: 24px;*/
+}
+details > p .screenshot {
+    float: left;
+    border: 1px solid #c0c0c0;
+    padding: 5px;
+}
+details details {
+	/*margin-left: 36px;*/
+}
+details details summary {
+	/*font-size: 16px;*/
 }
 
 #addForm{
@@ -311,3 +379,5 @@ footer h2 i{
 	float: left;
 	margin-top: 11px;
 }
+
+
