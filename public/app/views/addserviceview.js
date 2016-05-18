@@ -57,8 +57,6 @@ define([
 			}
 			$("#coverImage") = $("#coverImage").val("");
 			$("#coverImage") = $("#coverImage").clone(true);
-
-            //this.clearFileinput($("#coverImage"));
             this.showPreview(); 
         },
 
@@ -81,10 +79,6 @@ define([
 			  processData: false,
 			  contentType: false,
 			  beforeSend: function(data){
-			  	console.log("before send in ajax");
-			  	//$("#coverImage") = $("#coverImage").clone();
-			  	//_this.clearFileinput($("#coverImage"));
-
 				$("#sname").val("");
 				$("#sprice").val("");
 			  },
@@ -126,13 +120,6 @@ define([
 
 			});
         	
-		},
-		clearFileinput: function(source){
-			console.log("clearFileinput called")
-			var form = $('<form>')
-    		var targ = source.clone().appendTo(form)
-    		form[0].reset()
-    		source.replaceWith(targ)
 		},
         previewImage: function(file){
         	 
@@ -176,7 +163,12 @@ define([
 			if (formdata && _this.files.length) {	
 				this.sendAjax(s);					
 			}else{
-				dispatcher.trigger("add",s);
+				//if ( $("#sname").val() && $("#sprice").val() ){
+				if ( s.get('title') && s.get('price')){
+					dispatcher.trigger("add",s);
+				}
+				
+				
 				$("#sname").val("");
 				$("#sprice").val("");
 			}
