@@ -17,38 +17,20 @@ define([
 		//template: chooserTemplate,
 
 		initialize: function(options){
-			
+			this.router = options.router;
 			this.services = options.collection;
-			
-			
 			this.services.on("reset", this.render, this);
 	        this.render();
-	 
-	        //this.services.on("add", this.renderBook, this);
-	        /*this.services.on("remove", this.removeBook, this);
-	        */
-			// Cache these selectors
-			
-		
 			this.listenTo(this.services, 'change', this.render);
-			dispatcher.on('add', this.addService, this);
-
-			
-			
+			dispatcher.on('add', this.addService, this);	
 		},
 
 		createServiceViews: function(){
 			this.list.empty();
 			this.total = $('#total span');
-			
-			// Create views for every one of the services in the
-			// collection and add them to the page
-			
 			this.services.each(function(service){
-
 				var view = new ServiceView({ model: service });
 				this.list.append(view.render().el);
-
 			}, this);	// "this" is the context in the callback
 		},
 
@@ -82,7 +64,7 @@ define([
 			//'click #addService': "addService"
 		},
 		addService: function(s){
-		    console.log("add Service in ChooserView called");		
+		    		
 			var stitle = s.get('title'), sprice = Utils.roundToTwo(parseFloat(s.get('price')));
 
 			if ( s.get('image') ){
@@ -91,11 +73,14 @@ define([
 			}else{
 				this.services.create({ title: stitle, price: sprice, checked: false});
 			}
-			this.createServiceViews();
-			this.services.trigger('change',{});
-			Utils.activeLink('Home');
-			window.history.replaceState(null, null, '/');
-			//Backbone.history.navigate('#', true);
+			//this.createServiceViews();
+			//this.services.trigger('change',{});
+			Utils.activeLink('');
+			
+			
+			//this.router.navigate();
+			this.router.navigate('Home', true);
+			
 		},
 
 		orderMessage: function(event){
@@ -118,6 +103,7 @@ define([
 				
 			});
 			this.createServiceViews();
+			
 			this.services.trigger('change',{});
 			
 		}

@@ -31,24 +31,25 @@ define([
   
   var initialize = function(){
     var flashView = new FlashMessageView();
-    var addformView = new AddServiceView();
+    //var addformView = new AddServiceView();
     var services = new ServiceList();
     
     var app_router = new AppRouter;
-    var mainView = new ChooserView({collection: services});
+    var mainView = new ChooserView({collection: services, router: app_router});
     //var libraryView = new LibraryView(false, facebookUser);
     app_router.on('route:showAbout', function(){
-      //Utils.activeLink('About');
+      Utils.activeLink('About');
       $("#Wcontainer").empty();
-      addformView.render();
+      (new AddServiceView()).render();
     });
 
     app_router.on('route:showContact', function () {
-      //Utils.activeLink('Contact');
+      Utils.activeLink('Contact');
     });
      
     app_router.on('route:defaultAction', function (actions) {
-
+      console.log("default action is called")
+      Utils.activeLink('Home');
     	services.fetch({
     		success: function(c,p,t){
     			mainView.render();

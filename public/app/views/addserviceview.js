@@ -41,6 +41,7 @@ define([
             
             this.formData = new FormData();
             this.files = [];
+
             for (var i = 0; i < files.length; i++) {
 			  var file = files[i];
 
@@ -54,7 +55,10 @@ define([
 			  //this.formData.append('file',file);
 			  this.formData.append('photos[]', file, file.name);
 			}
-            
+			$("#coverImage") = $("#coverImage").val("");
+			$("#coverImage") = $("#coverImage").clone(true);
+
+            //this.clearFileinput($("#coverImage"));
             this.showPreview(); 
         },
 
@@ -78,6 +82,11 @@ define([
 			  contentType: false,
 			  beforeSend: function(data){
 			  	console.log("before send in ajax");
+			  	//$("#coverImage") = $("#coverImage").clone();
+			  	//_this.clearFileinput($("#coverImage"));
+
+				$("#sname").val("");
+				$("#sprice").val("");
 			  },
 			  success: function(data){
 			      console.log('upload successful!');
@@ -103,11 +112,9 @@ define([
 				        $('.progress-bar').html('Done');
 				   
 				        setTimeout(function(){
+				        	_this.files.length = 0;
 				        	dispatcher.trigger("add",theService);
-							$("#sname").val("");
-							$("#sprice").val("");
-							$("#coverImage").replaceWith($("#coverImage").clone());
-						},1000);
+						},700);
 				      }
 
 				    }
@@ -119,6 +126,13 @@ define([
 
 			});
         	
+		},
+		clearFileinput: function(source){
+			console.log("clearFileinput called")
+			var form = $('<form>')
+    		var targ = source.clone().appendTo(form)
+    		form[0].reset()
+    		source.replaceWith(targ)
 		},
         previewImage: function(file){
         	 
@@ -151,9 +165,9 @@ define([
         },
 		addService: function(event){
 			var _this = this;
-			console.log("add Service in addserviceView called");
+			//console.log("add Service in addserviceView called");
 			var s = new Service({ title: $("#sname").val(), price: $("#sprice").val()});
-			if ( _this.files && _this.files[0].name ){
+			if ( (_this.files && _this.files.length > 0) && _this.files[0].name ){
 				s = new Service({ title: $("#sname").val(), price: $("#sprice").val(), image: _this.files[0].name});
 			}
 			
