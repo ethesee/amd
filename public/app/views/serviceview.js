@@ -21,9 +21,13 @@ define([
 
 		render: function(){
             var tmpl = _.template(this.template);
-
-            this.$el.html(tmpl(this.model.toJSON()));
-            this.$('input').prop('checked', this.model.get('checked'));
+            if ( this.model.get('id')){
+            	this.$el.html(tmpl(this.model.toJSON()));
+            	this.$('input').prop('checked', this.model.get('checked'));
+            }
+            
+            
+            
 			return this;
 		},
 

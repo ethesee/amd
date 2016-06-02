@@ -22,7 +22,9 @@ define([
 			this.services.on("reset", this.render, this);
 	        this.render();
 			this.listenTo(this.services, 'change', this.render);
-			dispatcher.on('add', this.addService, this);	
+			this.listenTo(this.services, 'add', this.render);
+			this.services.fetch();
+			dispatcher.on('insert', this.addService, this);	
 		},
 
 		createServiceViews: function(){
@@ -56,6 +58,7 @@ define([
 			return this;
 
 		},
+
 		
 		events: { 
 			'click #order': "orderMessage",
@@ -65,17 +68,25 @@ define([
 		},
 		addService: function(s){
 		    		
-			var stitle = s.get('title'), sprice = Utils.roundToTwo(parseFloat(s.get('price')));
+			var stitle = s.title, sprice = Utils.roundToTwo(parseFloat(s.price));
 
-			if ( s.get('image') ){
+			// if ( s.get('image') ){
+			// 	//with image
+			// 	this.services.create({ title: stitle, price: sprice, checked: false, image: s.get('image')});
+			// }else{
+			// 	this.services.create({ title: stitle, price: sprice, checked: false});
+			// }
+
+			if ( s.image ){
 				//with image
-				this.services.create({ title: stitle, price: sprice, checked: false, image: s.get('image')});
+				this.services.create({ title: stitle, price: sprice, checked: false, image: s.image});
 			}else{
 				this.services.create({ title: stitle, price: sprice, checked: false});
 			}
+
 			//this.createServiceViews();
 			//this.services.trigger('change',{});
-			Utils.activeLink('');
+			Utils.activeLink('Home');
 			
 			
 			//this.router.navigate();

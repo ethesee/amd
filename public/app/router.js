@@ -18,7 +18,7 @@ define([
   var AppRouter = Backbone.Router.extend({
     routes: {
       // Define some URL routes
-      'home' : 'defaultAction',
+      'home' : 'defaultHome',
       'about': 'showAbout',
       'contact': 'showContact',
       
@@ -30,6 +30,7 @@ define([
   
   
   var initialize = function(){
+    console.log("initialize called");
     var flashView = new FlashMessageView();
     //var addformView = new AddServiceView();
     var services = new ServiceList();
@@ -45,18 +46,27 @@ define([
 
     app_router.on('route:showContact', function () {
       Utils.activeLink('Contact');
+      
+      var mainView = new ChooserView({collection: services, router: this});
+      mainView.render();
     });
-     
+    
+    app_router.on('route:defaultHome', function () {
+      $("#Wcontainer").empty();
+      console.log("default home clicked")
+      Utils.activeLink('Home');
+      mainView.render();
+    });
+
     app_router.on('route:defaultAction', function (actions) {
       console.log("default action is called")
       Utils.activeLink('Home');
-    	services.fetch({
-    		success: function(c,p,t){
-    			mainView.render();
-    		}
-    	});     
+      
+      
+      mainView.render();   
 	    
 	  });
+
     Backbone.history.start();
 
   };

@@ -30,7 +30,7 @@ define([
 		},
 
 		events: { 
-			'click #addService': "addService",
+			'click #addService': "addEntry",
 			'change #coverImage': "processUpload"
 		},
 		
@@ -55,8 +55,8 @@ define([
 			  //this.formData.append('file',file);
 			  this.formData.append('photos[]', file, file.name);
 			}
-			$("#coverImage") = $("#coverImage").val("");
-			$("#coverImage") = $("#coverImage").clone(true);
+			var fileField = $("#coverImage");
+			fileField.replaceWith(fileField.val('').clone(true));
             this.showPreview(); 
         },
 
@@ -107,7 +107,7 @@ define([
 				   
 				        setTimeout(function(){
 				        	_this.files.length = 0;
-				        	dispatcher.trigger("add",theService);
+				        	dispatcher.trigger("insert",theService);
 						},700);
 				      }
 
@@ -150,22 +150,26 @@ define([
 			
 
         },
-		addService: function(event){
+		addEntry: function(event){
 			var _this = this;
-			//console.log("add Service in addserviceView called");
-			var s = new Service({ title: $("#sname").val(), price: $("#sprice").val()});
+			var s = { title: $("#sname").val(), price: $("#sprice").val()};
+
+			// var s = new Service({ title: $("#sname").val(), price: $("#sprice").val()});
+			// if ( (_this.files && _this.files.length > 0) && _this.files[0].name ){
+			// 	s = new Service({ title: $("#sname").val(), price: $("#sprice").val(), image: _this.files[0].name});
+			// }
 			if ( (_this.files && _this.files.length > 0) && _this.files[0].name ){
-				s = new Service({ title: $("#sname").val(), price: $("#sprice").val(), image: _this.files[0].name});
+				//s = new Service({ title: $("#sname").val(), price: $("#sprice").val(), image: _this.files[0].name});
+				var s = { title: $("#sname").val(), price: $("#sprice").val(), image: _this.files[0].name};
 			}
-			
 			var formdata = _this.formData;
 			//console.log("uploading:",formdata);
 			if (formdata && _this.files.length) {	
 				this.sendAjax(s);					
 			}else{
 				//if ( $("#sname").val() && $("#sprice").val() ){
-				if ( s.get('title') && s.get('price')){
-					dispatcher.trigger("add",s);
+				if ( s.title && s.price){
+					dispatcher.trigger("insert",s);
 				}
 				
 				
