@@ -36,6 +36,7 @@ define([
     var services = new ServiceList();
     
     var app_router = new AppRouter;
+
     var mainView = new ChooserView({collection: services, router: app_router});
     //var libraryView = new LibraryView(false, facebookUser);
     app_router.on('route:showAbout', function(){
@@ -53,18 +54,20 @@ define([
     
     app_router.on('route:defaultHome', function () {
       $("#Wcontainer").empty();
-      console.log("default home clicked")
       Utils.activeLink('Home');
       mainView.render();
     });
 
     app_router.on('route:defaultAction', function (actions) {
-      console.log("default action is called")
       Utils.activeLink('Home');
-      
-      
-      mainView.render();   
-	    
+      services.fetch({
+        success: function(collection, response, options){
+          mainView.render();
+        },
+        error: function(collection, response, options){
+          console.log("error fetching services, status:", response);
+        }  
+	    });
 	  });
 
     Backbone.history.start();
